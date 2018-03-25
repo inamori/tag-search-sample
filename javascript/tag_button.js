@@ -27,6 +27,7 @@ Vue.component('tag-button', {
             }
         },
         ifThisTagSelected: function () {
+            // このタグが選択された場合の残り曲数を返す
             var tmp = this.selectedTags.concat([]);
             tmp.push(this.tagName);
             return calcMatchedMusics(this.musics, tmp).length;

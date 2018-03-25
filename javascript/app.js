@@ -1,7 +1,7 @@
 window.calcMatchedMusics = function (musics, selectedTags) {
     return _.filter(musics, function (music) {
         for (var i = 0; i < selectedTags.length; i++) {
-            if (music.tags.indexOf(selectedTags[i]) === -1) return false;
+            if (_.include(music.tags, selectedTags[i]) === false) return false;
         }
         return true;
     });
@@ -21,12 +21,12 @@ $(document).ready(function () {
         },
         watch: {
             selectedTags: function (val) {
+                // 選択タグが変わったら結果数をアニメーションさせる
                 this.selectedTags = val;
                 var self = this;
                 var current = this.matchedMusics.length;
                 $({count: this.animationNum}).animate({count: current}, {
-                    duration: 400,
-                    easing: 'linear',
+                    duration: 300,
                     progress: function() {
                         self.animationNum = Math.round(this.count);
                     }
@@ -35,6 +35,7 @@ $(document).ready(function () {
         },
         created: function () {
             var self = this;
+            //　設定ファイルを読み込んで初期化
             $.get('./config.json').done(function (res) {
                 self.tags = res.tags;
                 self.musics = res.musics;
@@ -44,8 +45,10 @@ $(document).ready(function () {
         methods: {
             onTagClicked: function (tagName) {
                 if (_.include(this.selectedTags, tagName)) {
+                    // 選択解除
                     this.selectedTags = _.without(this.selectedTags, tagName);
                 } else {
+                    // 選択
                     this.selectedTags.push(tagName);
                     this.selectedTags = _.uniq(this.selectedTags);
                 }
