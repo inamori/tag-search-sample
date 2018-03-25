@@ -35,7 +35,7 @@ $(document).ready(function () {
         },
         created: function () {
             var self = this;
-            $.get('./sample.json').done(function (res) {
+            $.get('./config.json').done(function (res) {
                 self.tags = res.tags;
                 self.musics = res.musics;
                 self.animationNum = self.musics.length;
