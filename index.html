@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="stylesheet/bootstrap.min.css">
+    <link rel="stylesheet" href="stylesheet/app.css">
+    <script src="javascript/lib/jquery-3.3.1.min.js"></script>
+    <script src="javascript/lib/vue.min.js"></script>
+    <script src="javascript/lib/bootstrap.min.js"></script>
+    <script src="javascript/lib/underscore-min.js"></script>
+    <script src="javascript/tag_button.js"></script>
+    <script src="javascript/app.js"></script>
+</head>
+<body>
+<div class="container">
+    <div id="app"></div>
+</div>
+<script id="app-template" type="text/x-template">
+    <div>
+        <div class="row">
+            <div class="col-md-9 balloon">
+                <div class="mx-auto w-100 text-center">
+                    現在<span class="remainMusicNum">{{animationNum}}</span>曲あります
+                </div>
+                <tag-button v-for="tag in tags" :tagName="tag" :musics="musics" :selectedTags="selectedTags" @tag-clicked="onTagClicked" />
+            </div>
+            <div class="col-md-3">
+                <img style="width: 100%;" src="https://placehold.jp/3d4070/ffffff/300x400.png?text=%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E7%94%BB%E5%83%8F">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 offset-md-4 mt-3" style="text-align: center;">
+                <button class="btn btn-lg btn-primary w-100" @click="onResultClicked">
+                    結果を見る
+                </button>
+            </div>
+            <div class="col-md-4 mt-3" style="text-align: center;">
+                <button class="btn btn-sm btn-warning w-100" @click="onCancelClicked">
+                    選択を全て外す
+                </button>
+            </div>
+        </div>
+        <div v-show="showResult">
+            <h2>結果</h2>
+            <table class="table">
+                <tr v-for="music in matchedMusics" class="music-list">
+                    <td><img :src="music.thumb"></td>
+                    <td><span class="music-title">{{music.title}}</span></td>
+                    <td>
+                        <span v-for="tag in music.tags" class="badge badge-pill badge-info" style="margin: 0 4px">
+                            {{tag}}
+                        </span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</script>
+</body>
+</html>

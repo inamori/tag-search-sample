@@ -1,0 +1,35 @@
+.container {
+    height: 50vh;
+    margin-top: 25vh;
+}
+.music-title {
+    font-weight: bold;
+}
+.tag-column {
+    display: inline-block;
+    text-align: center;
+}
+.tag-button {
+    width: 90%;
+    margin: 5% 0;
+}
+.remainMusicNum {
+    font-size: 250%;
+    font-weight: bold;
+    margin: 0 1vw;
+}
+.balloon {
+    padding: 3vh 0;
+    background-color: #ddd;
+    border-radius: 8px;
+    box-sizing: content-box;
+}
+.balloon:before{
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    margin-top: -15px;
+    border: 15px solid transparent;
+    border-left: 15px solid #ddd;
+}
