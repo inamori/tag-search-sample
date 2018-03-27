@@ -33,10 +33,11 @@ $(document).ready(function () {
                 });
             }
         },
+
         created: function () {
             var self = this;
             //　設定ファイルを読み込んで初期化
-            $.get('./config.json').done(function (res) {
+            $.get('./config.json?t='+(new Date()).getTime()).done(function (res) {
                 self.tags = res.tags;
                 self.musics = res.musics;
                 self.animationNum = self.musics.length;
