@@ -57,6 +57,11 @@ $(document).ready(function () {
             onResultClicked: function () {
                 this.showResult = !this.showResult;
             },
+
+            misakiImage: function () {
+                return this.showResult ? "300x400_2.png" : "300x400.png";
+            },
+
             onCancelClicked: function () {
                 this.showResult = false;
                 this.selectedTags = [];
