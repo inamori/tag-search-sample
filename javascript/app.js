@@ -73,9 +73,6 @@ $(document).ready(function () {
                         self.animationNum = Math.round(this.count);
                     }
                 });
-            },
-            primaryTag: function (v) {
-                console.log(v)
             }
         },
 
