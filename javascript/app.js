@@ -1,10 +1,49 @@
-window.calcMatchedMusics = function (musics, selectedTags) {
-    return _.filter(musics, function (music) {
+window.calcMatchedMusics = function (musics, selectedTags, primaryTag) {
+    var matchedMusics = _.filter(musics, function (music) {
         for (var i = 0; i < selectedTags.length; i++) {
-            if (_.include(music.tags, selectedTags[i]) === false) return false;
+            if (_.include(_.keys(music.tags), selectedTags[i]) === false) {
+                return false;
+            }
         }
         return true;
     });
+
+    // 距離でソートする場合はこんな感じ
+    // _.each(matchedMusics, function (music) {
+    //     var dist = 0;
+    //     _.each(music.tags, function (weight, tagName) {
+    //         var selectedPosition = 0;
+    //         var index = selectedTags.indexOf(tagName);
+    //         if (index !== -1) {
+    //             // 最初に選択したものは2、それ以降は1で
+    //             // Math.pow(2, 1 / index)とかにすると 2, 1.4, 1.25, 1.18...という感じで1.0に漸近します
+    //             selectedPosition = index === 0 ? 2 : 1.5;
+    //         }
+    //
+    //         dist += Math.pow(selectedPosition - weight, 2);
+    //     });
+    //     music.distance = dist;
+    // });
+    // return _.sortBy(matchedMusics, 'score').reverse();
+
+    _.each(matchedMusics, function (music) {
+        var totalScore = 0;
+        _.each(music.tags, function (weight, tagName) {
+            var index = selectedTags.indexOf(tagName);
+            if (index === -1) return; // 曲にあるけど選択してないタグの場合はスコアに影響を与えない
+
+            // タグの強さ/選んだ順
+            var score = weight / (index + 1);
+
+            // 優先タグなら100倍（適当）
+            if (primaryTag === tagName) score *= 100;
+
+            totalScore += score;
+        });
+        music.score = totalScore;
+    });
+    //スコアの場合大きい順(降順)になるので最後にreverse()します
+    return _.sortBy(matchedMusics, 'score').reverse();
 };
 
 $(document).ready(function () {
@@ -12,11 +51,14 @@ $(document).ready(function () {
         el: '#app',
         template: '#app-template',
         data: function () {
-            return { musics: [], tags: [], selectedTags: [], animationNum: 0, showResult: false }
+            return {
+                musics: [], tags: [], selectedTags: [], animationNum: 0, showResult: false,
+                primaryTag: null
+            }
         },
         computed: {
             matchedMusics: function () {
-                return calcMatchedMusics(this.musics, this.selectedTags);
+                return calcMatchedMusics(this.musics, this.selectedTags, this.primaryTag);
             }
         },
         watch: {
@@ -31,6 +73,9 @@ $(document).ready(function () {
                         self.animationNum = Math.round(this.count);
                     }
                 });
+            },
+            primaryTag: function (v) {
+                console.log(v)
             }
         },
 
@@ -52,6 +97,7 @@ $(document).ready(function () {
                     // 選択
                     this.selectedTags.push(tagName);
                     this.selectedTags = _.uniq(this.selectedTags);
+                    this.primaryTag = this.selectedTags[0];
                 }
             },
             onResultClicked: function () {

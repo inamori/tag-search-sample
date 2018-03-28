@@ -6,8 +6,9 @@ Vue.component('tag-button', {
     template:
         '<div class="col-md-4 tag-column">' +
             '<button ref="button" @click="onClicked" class="btn tag-button" :class="classObject" :disabled="isDisabled">' +
+                '<span v-show="selected">{{priority}}. </span>' +
                 '{{tagName}}' +
-                '<span v-show="ifThisTagSelected > 0">({{ifThisTagSelected}}曲)</span>' +
+                '<span v-show="!selected && ifThisTagSelected > 0">({{ifThisTagSelected}}曲)</span>' +
             '</button>' +
         '</div>',
     methods: {
@@ -18,6 +19,9 @@ Vue.component('tag-button', {
     computed: {
         selected: function () {
             return _.include(this.selectedTags, this.tagName);
+        },
+        priority: function () {
+            return this.selectedTags.indexOf(this.tagName) + 1;
         },
         classObject: function () {
             return {

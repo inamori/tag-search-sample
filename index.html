@@ -42,13 +42,19 @@
         </div>
         <div v-show="showResult">
             <h2>結果</h2>
+            <select v-model="primaryTag" class="form-control w-25">
+                <option v-for="selectedTag in selectedTags" :value="selectedTag">
+                    「{{selectedTag}}」優先
+                </option>
+            </select>
             <table class="table">
                 <tr v-for="music in matchedMusics" class="music-list">
                     <td><img :src="music.thumb"></td>
                     <td><span class="music-title">{{music.title}}</span></td>
                     <td>
-                        <span v-for="tag in music.tags" class="badge badge-pill badge-info" style="margin: 0 4px">
-                            {{tag}}
+                        <!-- デバッグ用タグ表示 -->
+                        <span v-for="(weight, tagName) in music.tags" :class="'badge badge-pil ' + (_.contains(selectedTags, tagName) ? 'badge-success':'badge-info')" style="margin: 0 4px">
+                            {{tagName}}:{{weight}}
                         </span>
                     </td>
                 </tr>
