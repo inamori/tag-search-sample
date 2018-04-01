@@ -8,24 +8,6 @@ window.calcMatchedMusics = function (musics, selectedTags, primaryTag) {
         return true;
     });
 
-    // 距離でソートする場合はこんな感じ
-    // _.each(matchedMusics, function (music) {
-    //     var dist = 0;
-    //     _.each(music.tags, function (weight, tagName) {
-    //         var selectedPosition = 0;
-    //         var index = selectedTags.indexOf(tagName);
-    //         if (index !== -1) {
-    //             // 最初に選択したものは2、それ以降は1で
-    //             // Math.pow(2, 1 / index)とかにすると 2, 1.4, 1.25, 1.18...という感じで1.0に漸近します
-    //             selectedPosition = index === 0 ? 2 : 1.5;
-    //         }
-    //
-    //         dist += Math.pow(selectedPosition - weight, 2);
-    //     });
-    //     music.distance = dist;
-    // });
-    // return _.sortBy(matchedMusics, 'score').reverse();
-
     _.each(matchedMusics, function (music) {
         var totalScore = 0;
         _.each(music.tags, function (weight, tagName) {
@@ -33,10 +15,10 @@ window.calcMatchedMusics = function (musics, selectedTags, primaryTag) {
             if (index === -1) return; // 曲にあるけど選択してないタグの場合はスコアに影響を与えない
 
             // タグの強さ/選んだ順
-            var score = weight / (index + 1);
+            var score = weight / (index + 1.5);
 
-            // 優先タグなら100倍（適当）
-            if (primaryTag === tagName) score *= 100;
+            // 優先タグなら1.15倍
+            if (primaryTag === tagName) score *= 1.15;
 
             totalScore += score;
         });
@@ -53,7 +35,7 @@ $(document).ready(function () {
         data: function () {
             return {
                 musics: [], tags: [], selectedTags: [], animationNum: 0, showResult: false,
-                primaryTag: null
+                primaryTag: null, resultLimit: 0, pagingSize: 5
             }
         },
         computed: {
@@ -73,6 +55,8 @@ $(document).ready(function () {
                         self.animationNum = Math.round(this.count);
                     }
                 });
+                // ページングも元に戻す
+                this.resultLimit = 0;
             }
         },
 
@@ -83,7 +67,15 @@ $(document).ready(function () {
                 self.tags = res.tags;
                 self.musics = res.musics;
                 self.animationNum = self.musics.length;
-            })
+            });
+
+            // スクロール位置を監視して下までスクロールされたら表示件数5件追加
+            setInterval(function () {
+                if (!self.showResult) return;
+                if (self.$el.getBoundingClientRect().bottom < window.innerHeight) {
+                    self.resultLimit += self.pagingSize;
+                }
+            }, 1);
         },
         methods: {
             onTagClicked: function (tagName) {
@@ -102,7 +94,7 @@ $(document).ready(function () {
             },
 
             misakiImage: function () {
-                return this.showResult ? "300x400_2.png" : "300x400.png";
+                return this.showResult ? "misaki2.png" : "misaki1.png";
             },
 
             onCancelClicked: function () {

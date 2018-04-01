@@ -4,7 +4,7 @@ Vue.component('tag-button', {
         return {disabled: false};
     },
     template:
-        '<div class="col-md-4 tag-column">' +
+        '<div class="col-md-3 tag-column">' +
             '<button ref="button" @click="onClicked" class="btn tag-button" :class="classObject" :disabled="isDisabled">' +
                 '<span v-show="selected">{{priority}}. </span>' +
                 '{{tagName}}' +
