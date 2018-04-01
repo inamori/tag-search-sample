@@ -57,7 +57,7 @@
             </select>
             -->
             <table class="table">
-                <music-list-item v-for="music in matchedMusics.slice(0, 3)" :music="music">
+                <music-list-item v-for="music in matchedMusics.slice(0, resultLimit)" :music="music">
                      <!-- <td>
                        デバッグ用タグ表示
                         <span v-for="(weight, tagName) in music.tags" :class="'badge badge-pil ' + (_.contains(selectedTags, tagName) ? 'badge-success':'badge-info')" style="margin: 0 4px">

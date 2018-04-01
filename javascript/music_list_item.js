@@ -5,7 +5,7 @@ Vue.component('music-list-item', {
     },
     template:
         '<tr class="music-list">' +
-            '<td><iframe :src="iframeSrc"/></td>' +
+            '<td><iframe :src="music.itunes"/></td>' +
             '<slot></slot>' +
         '</tr>',
     watch: {
@@ -23,6 +23,6 @@ Vue.component('music-list-item', {
             if (self.$el.getBoundingClientRect().top < window.innerHeight) {
                 self.iframeSrc = self.music.itunes;
             }
-        }, 10);
+        }, 1);
     }
 });

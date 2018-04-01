@@ -35,7 +35,7 @@ $(document).ready(function () {
         data: function () {
             return {
                 musics: [], tags: [], selectedTags: [], animationNum: 0, showResult: false,
-                primaryTag: null
+                primaryTag: null, resultLimit: 0, pagingSize: 5
             }
         },
         computed: {
@@ -55,6 +55,8 @@ $(document).ready(function () {
                         self.animationNum = Math.round(this.count);
                     }
                 });
+                // ページングも元に戻す
+                this.resultLimit = 0;
             }
         },
 
@@ -65,7 +67,15 @@ $(document).ready(function () {
                 self.tags = res.tags;
                 self.musics = res.musics;
                 self.animationNum = self.musics.length;
-            })
+            });
+
+            // スクロール位置を監視して下までスクロールされたら表示件数5件追加
+            setInterval(function () {
+                if (!self.showResult) return;
+                if (self.$el.getBoundingClientRect().bottom < window.innerHeight) {
+                    self.resultLimit += self.pagingSize;
+                }
+            }, 1);
         },
         methods: {
             onTagClicked: function (tagName) {
