@@ -33,3 +33,56 @@
     border: 15px solid transparent;
     border-left: 15px solid #ddd;
 }
+
+html {
+ overflow-y: scroll;
+}
+body {
+	background-image: url("../bg.jpg");
+}
+
+iframe{
+	border:none;
+	width:75%;
+	margin:1px;
+}
+
+#pagetop {
+    position: fixed;
+    bottom: 30px;
+    right: 15px;
+}
+
+#pagetop:before{
+	content: "";
+	position: absolute;
+	top: -30px;
+	left: 20%;
+ 	margin-left: -15px;
+	border: 15px solid transparent;
+	border-bottom: 15px solid #DDD;
+	filter:alpha(opacity=80);
+    -moz-opacity: 0.8;
+    opacity: 0.8;
+}
+
+#pagetop a {
+    display: block;
+    background-color: #DDD;
+    text-align: center;
+    color: #000;
+    font-size: 15px;
+    text-decoration: none;
+    padding: 5px 10px;
+	filter:alpha(opacity=80);
+    -moz-opacity: 0.8;
+    opacity: 0.8;
+}
+
+#result{
+    background:#fff;
+    margin:20px 0px;
+    padding:5px;
+    border-radius: 8px;
+}
+
