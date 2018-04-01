@@ -10,6 +10,7 @@
     <script src="javascript/lib/underscore-min.js"></script>
     <script src="javascript/lib/lazysizes.js"></script>
     <script src="javascript/tag_button.js"></script>
+    <script src="javascript/music_list_item.js"></script>
     <script src="javascript/app.js"></script>
     <script src="javascript/pagetop.js"></script>
 </head>
@@ -56,15 +57,14 @@
             </select>
             -->
             <table class="table">
-                <tr v-for="music in matchedMusics" class="music-list">
-                    <td><iframe :data-src="music.itunes" class="lazyload"></td>
+                <music-list-item v-for="music in matchedMusics.slice(0, 3)" :music="music">
                      <!-- <td>
                        デバッグ用タグ表示
                         <span v-for="(weight, tagName) in music.tags" :class="'badge badge-pil ' + (_.contains(selectedTags, tagName) ? 'badge-success':'badge-info')" style="margin: 0 4px">
                             {{tagName}}:{{weight}}
                         </span>
                     </td> -->
-                </tr>
+                </music-list-item>
             </table>
             <p id="pagetop"><a href="#wrap">お気に入りの曲に出会えましたか～？</a></p>
         </div>
