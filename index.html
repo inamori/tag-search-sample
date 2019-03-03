@@ -56,7 +56,7 @@
                 </option>
             </select>
             -->
-            <table class="table">
+            <div class="row">
                 <music-list-item v-for="music in matchedMusics.slice(0, resultLimit)" :music="music">
                      <!-- <td>
                        デバッグ用タグ表示
@@ -65,7 +65,7 @@
                         </span>
                     </td> -->
                 </music-list-item>
-            </table>
+            </div>
             <p id="pagetop"><a href="#wrap">お気に入りの曲に出会えましたか～？</a></p>
         </div>
     </div>

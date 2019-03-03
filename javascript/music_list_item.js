@@ -4,10 +4,10 @@ Vue.component('music-list-item', {
         return { iframeSrc: null };
     },
     template:
-        '<tr class="music-list">' +
-            '<td><iframe :src="music.itunes"/></td>' +
+        '<div class="col-6">' +
+            '<iframe :src="music.itunes"/>' +
             '<slot></slot>' +
-        '</tr>',
+        '</div>',
     watch: {
         music: function () {
            // 曲が変わったのでiframeをアンロード
